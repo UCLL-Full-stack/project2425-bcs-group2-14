@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Boeing 747",
+        "capacity": 416,
+        "range": 14815,
+        "type": "Passenger",
+        "price": 3200,
+        "email": "labudi@mail.com",
+        "location": "JFK",
+        "maxTakeoffWeight": 447700
+    },
+    {
+        "id": 2,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Boeing 777",
+        "capacity": 396,
+        "range": 11000,
+        "type": "Passenger",
+        "price": 3000,
+        "email": "labudi@mail.com",
+        "location": "LAX",
+        "maxTakeoffWeight": 351500
+    },
+    {
+        "id": 3,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Boeing 737",
+        "capacity": 215,
+        "range": 5460,
+        "type": "Passenger",
+        "price": 2500,
+        "email": "labudi@mail.com",
+        "location": "ORD",
+        "maxTakeoffWeight": 79015
+    },
+    {
+        "id": 4,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Airbus A380",
+        "capacity": 853,
+        "range": 15200,
+        "type": "Passenger",
+        "price": 3500,
+        "email": "labudi@mail.com",
+        "location": "DXB",
+        "maxTakeoffWeight": 560000
+    },
+    {
+        "id": 5,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Airbus A320",
+        "capacity": 180,
+        "range": 6100,
+        "type": "Passenger",
+        "price": 2000,
+        "email": "labudi@mail.com",
+        "location": "ATL",
+        "maxTakeoffWeight": 78000
+    },
+    {
+        "id": 6,
+        "image": "./assets/media/pc-12.jpg",
+        "name": "Airbus A340",
+        "capacity": 375,
+        "range": 13450,
+        "type": "Passenger",
+        "price": 2800,
+        "email": "labudi@mail.com",
+        "location": "LHR",
+        "maxTakeoffWeight": 275000
+    }
+]
