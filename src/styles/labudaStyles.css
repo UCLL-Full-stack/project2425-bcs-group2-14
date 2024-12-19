@@ -1,0 +1,33 @@
+.sclad{background-color: aqua;}
+
+.golova{
+    background-color: blueviolet;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.golova .poshuk {
+    height: 30px;
+}
+
+.sclad{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.paleta{
+    border: 2px solid magenta;
+    border-radius: 30px;
+    margin: 30px;
+    padding: 10px;
+    &:hover{
+        background-color: brown;
+    }
+}
+
+.texts{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
