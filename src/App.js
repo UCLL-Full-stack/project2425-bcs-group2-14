@@ -1,69 +1,128 @@
-import './App.css';
-import React, { useState } from 'react';
+// Import necessary libraries and components
+import React, { useState, useReducer } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import i18n from "./i18n";
+import { Helmet } from "react-helmet";
+import Login from "./front-end/componensJSX/Login";
+import Header from "./front-end/componensJSX/header";
+import CardPlaneList from "./front-end/componensJSX/cardPlaneList";
+import Modal from "./front-end/componensJSX/modal";
+import litakStore from "./litakStore.json";
+// import translationEN from "./front-end/locales/en/translation.json";
+// import translationUA from "./front-end/locales/ua/translation.json";
 
-import Header from '../src/front-end/componensJSX/header';
-import CardPlaneList from '../src/front-end/componensJSX/cardPlane';
-import Modal from '../src/front-end/componensJSX/modal';
-
-import imagePILATUS from '../../project2425-bcs-group2-14/src/assets/media/pc-12.jpg';
-import imageNOTPILATUS from '../../project2425-bcs-group2-14/src/assets/media/C310.jpg';
-
-const Planes = [
-  { id: 1, image: imagePILATUS, name: "Boeing 747", capacity: 416, range: 14815, type: "Passenger", price: 3200, email: "labudi@mail.com", location: "JFK", maxTakeoffWeight: 447700 },
-  { id: 2, image: imageNOTPILATUS, name: "Boeing 777", capacity: 396, range: 11000, type: "Passenger", price: 3000, email: "labudi@mail.com", location: "LAX", maxTakeoffWeight: 351500 },
-  { id: 3, image: imagePILATUS, name: "Boeing 737", capacity: 215, range: 5460, type: "Passenger", price: 2500, email: "labudi@mail.com", location: "ORD", maxTakeoffWeight: 79015 },
-  { id: 4, image: imageNOTPILATUS, name: "Airbus A380", capacity: 853, range: 15200, type: "Passenger", price: 3500, email: "labudi@mail.com", location: "DXB", maxTakeoffWeight: 560000 },
-  { id: 5, image: imagePILATUS, name: "Airbus A320", capacity: 180, range: 6100, type: "Passenger", price: 2000, email: "labudi@mail.com", location: "ATL", maxTakeoffWeight: 78000 },
-  { id: 6, image: imageNOTPILATUS, name: "Airbus A340", capacity: 375, range: 13450, type: "Passenger", price: 2800, email: "labudi@mail.com", location: "LHR", maxTakeoffWeight: 275000 },
-];
+const authReducer = (state, action) => {
+  switch (action.type) {
+    case "LOGIN":
+      return { ...state, currentUser: action.payload, loginError: "" };
+    case "LOGOUT":
+      return { ...state, currentUser: null };
+    case "ERROR":
+      return { ...state, loginError: action.payload };
+    default:
+      return state;
+  }
+};
 
 const App = () => {
-  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const [isPlaneModalOpen, setPlaneModalOpen] = useState(false);
+  const { t } = useTranslation();
+  const [state, dispatch] = useReducer(authReducer, {
+    currentUser: null,
+    loginError: "",
+  });
+  const [planes, setPlanes] = useState(litakStore);
   const [selectedPlane, setSelectedPlane] = useState(null);
-  const [showEmail, setShowEmail] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openFilterModal = () => {
-    setFilterModalOpen(true);
+  const loginHandler = (username, password) => {
+    const storedUsers = {
+      admin: { username: "admin", password: "admin123", role: "admin" },
+      owner: { username: "owner", password: "owner123", role: "owner" },
+      user: { username: "user", password: "user123", role: "user" },
+      guest: { username: "guest", password: "guest123", role: "guest" },
+    };
+
+    const user = Object.values(storedUsers).find(
+      (u) => u.username === username && u.password === password
+    );
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    } else {
+      dispatch({ type: "ERROR", payload: t("invalid_credentials") });
+    }
   };
 
-  const closeFilterModal = () => {
-    setFilterModalOpen(false);
-  };
-
-  const closePlaneModal = () => {
-    setPlaneModalOpen(false);
-    setSelectedPlane(null);
-    console.log("Modal closed");
-  };
-
-  const openPlaneModal = (plane) => {
-    console.log("Plane clicked:", plane);
+  const handleCardClick = (plane) => {
     setSelectedPlane(plane);
-    setPlaneModalOpen(true);
-    console.log("Modal opened with plane:", plane);
-    setShowEmail(false);
-  };
-  const toggleShowEmail = () => {
-    setShowEmail((prev) => !prev);
+    setIsModalOpen(true);
   };
 
-  return (
-    <div className="App">
-      <Header onFilterClick={openFilterModal} />
-      <div className="card-cluster">
-        {Planes.map((plane) => (
-          <CardPlaneList key={plane.id} plane={plane} onClick={openPlaneModal} />
+  const closeModal = () => {
+    setSelectedPlane(null);
+    setIsModalOpen(false);
+  };
+
+  const handleEdit = (updatedPlane) => {
+    setPlanes((prevPlanes) =>
+      prevPlanes.map((plane) =>
+        plane.id === updatedPlane.id ? updatedPlane : plane
+      )
+    );
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = (planeId) => {
+    setPlanes((prevPlanes) => prevPlanes.filter((plane) => plane.id !== planeId));
+    setIsModalOpen(false);
+  };
+
+  const renderContentByRole = () => {
+    return (
+      <div className="plane-list">
+        {planes.map((plane) => (
+          <CardPlaneList
+            key={plane.id}
+            plane={plane}
+            onClick={
+              state.currentUser?.role === "guest"
+                ? null
+                : handleCardClick
+            }
+          />
         ))}
       </div>
-      <Modal 
-        isOpen={isPlaneModalOpen} 
-        onClosed={closePlaneModal} 
-        plane={selectedPlane} 
-        showEmail={showEmail}
-        onContactClick={toggleShowEmail}
-      />
-    </div>
+    );
+  };
+
+
+
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        {!state.currentUser ? (
+          <Login onLogin={loginHandler} />
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={<React.Fragment>{renderContentByRole()}</React.Fragment>}
+            />
+          </Routes>
+        )}
+        {isModalOpen && selectedPlane && (
+          <Modal
+            isOpen={isModalOpen}
+            plane={selectedPlane}
+            onClosed={closeModal}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            role={state.currentUser?.role}
+          />
+        )}
+      </div>
+    </Router>
   );
 };
 

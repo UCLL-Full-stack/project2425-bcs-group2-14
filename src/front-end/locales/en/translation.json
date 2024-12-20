@@ -1,0 +1,57 @@
+{
+    "app_title": "Aircraft Rental App",
+    "app_description": "Find and rent the best aircraft",
+    "invalid_credentials": "Invalid username or password",
+    "welcome": "Welcome, {{user}}!",
+    "guest_view_only": "Guest View Only",
+    "guest_info": "You can browse listings but not interact.",
+    "search_placeholder": "Location, type, capacity, range",
+    "plane_details": {
+        "type": "Type",
+        "range": "Range",
+        "capacity": "Capacity",
+        "location": "Location",
+        "price": "Price",
+        "max_takeoff_weight": "Max Takeoff Weight",
+        "email": "Email"
+    },
+    "login": {
+        "title": "Login",
+        "username_label": "Username",
+        "password_label": "Password",
+        "username_placeholder": "Enter your username",
+        "password_placeholder": "Enter your password",
+        "button": "Login"
+    },
+    "edit_mode": {
+        "title": "Edit Plane Details",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete",
+        "close": "Close"
+    },
+    "modal": {
+        "title": "Aircraft Details",
+        "type": "Type",
+        "range": "Range",
+        "capacity": "Capacity",
+        "location": "Location",
+        "price": "Price",
+        "max_takeoff_weight": "Max Takeoff Weight",
+        "close": "Close",
+        "edit": "Edit",
+        "delete": "Delete",
+        "form_title": "Rental Form",
+        "form_full_name": "Full Name",
+        "form_email": "Email",
+        "form_phone": "Phone Number",
+        "form_submit": "Submit",
+        "form_success": "Form submitted successfully!",
+        "form_open": "Open Form",
+        "form_close": "Close Form",
+        "guest_info": "Guests can view details but cannot rent aircraft.",
+        "rental_form.open_form": "Rent",
+        "rental_form.close_form": "Close"
+    }
+}

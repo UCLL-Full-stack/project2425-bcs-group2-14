@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Aircraft {
+  Aircraft_ID Int @id @default(autoincrement())
+  Make String
+  Model String
+  Year Int
+  Type String
+  Capacity Int
+  Range Int
+  RegNumber String
+  Location String
+
+
+  bookings Booking[]
+  listings RentalListing[]
+}
+
+model User {
+  User_ID Int @id @default(autoincrement())
+  Name String
+  EmailAddress String @unique
+  PhoneNumber Int
+
+
+  aircafts Aircraft[]
+  bookings Booking[]
+  listings RentalListing[]
+  roles Role[] @relation("UserRoles")
+}
+
+model RentalListing {
+  Listing_ID Int @id @default(autoincrement())
+  RentalRate Int
+  Availability String
+  Status String
+  Description String
+
+
+  user User @relation(fields:[userId], references: [User_ID])
+  aircaft Aircraft @relation(fields:[aircraftId], references: [Aircraft_ID])
+}
+
+model Booking {
+  Booking_lD Int @id @default(autoincrement())
+  BookingStartDateHours DateTime
+  BookingEndDateHours DateTime
+  Staus String
+  TotalCost Float
+
+
+  user User @relation(fields:[userId], references: [User_ID])
+  aircaft Aircraft @relation(fields:[aircraftId], references: [Aircraft_ID])  
+}
+
+model Role {
+  Role_lD Int @id @default(autoincrement())
+  Type String
+
+
+  users User[] @relation("UserRoles")
+}
+
